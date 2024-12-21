@@ -1,9 +1,9 @@
 use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap, HashMap};
 
-use hydroflow_lang::diagnostic::{Diagnostic, Level};
-use hydroflow_lang::graph::FlatGraphBuilder;
-use hydroflow_lang::parse::Pipeline;
+use dfir_lang::diagnostic::{Diagnostic, Level};
+use dfir_lang::graph::FlatGraphBuilder;
+use dfir_lang::parse::Pipeline;
 use proc_macro2::Span;
 use rust_sitter::Spanned;
 use syn::{parse_quote, parse_quote_spanned};
@@ -568,7 +568,7 @@ pub fn expand_join_plan(
             } else {
                 flat_graph_builder.add_statement(
                     parse_quote_spanned! {get_span(rule_span)=>
-                        #join_node = join::<#lt_left, #lt_right, hydroflow::compiled::pull::HalfMultisetJoinState>() -> map(#flatten_closure);
+                        #join_node = join::<#lt_left, #lt_right, dfir_rs::compiled::pull::HalfMultisetJoinState>() -> map(#flatten_closure);
                     }
                 );
             }

@@ -1,12 +1,10 @@
 use std::collections::{HashMap, HashSet};
 use std::ops::Deref;
 
-pub use hydroflow_lang::diagnostic;
-use hydroflow_lang::diagnostic::{Diagnostic, Level};
-use hydroflow_lang::graph::{
-    eliminate_extra_unions_tees, partition_graph, FlatGraphBuilder, HydroflowGraph,
-};
-use hydroflow_lang::parse::{
+pub use dfir_lang::diagnostic;
+use dfir_lang::diagnostic::{Diagnostic, Level};
+use dfir_lang::graph::{eliminate_extra_unions_tees, partition_graph, DfirGraph, FlatGraphBuilder};
+use dfir_lang::parse::{
     HfStatement, IndexInt, Indexing, Pipeline, PipelineLink, PipelineStatement, PortIndex,
 };
 use proc_macro2::{Span, TokenStream};
@@ -55,9 +53,7 @@ pub fn parse_static(
         })
 }
 
-pub fn gen_hydroflow_graph(
-    literal: proc_macro2::Literal,
-) -> Result<HydroflowGraph, Vec<Diagnostic>> {
+pub fn gen_hydroflow_graph(literal: proc_macro2::Literal) -> Result<DfirGraph, Vec<Diagnostic>> {
     let offset = {
         // This includes the quotes, i.e. 'r#"my test"#' or '"hello\nworld"'.
         let source_str = literal.to_string();
@@ -325,7 +321,7 @@ fn handle_errors(
     diagnostics
 }
 
-pub fn hydroflow_graph_to_program(flat_graph: HydroflowGraph, root: TokenStream) -> TokenStream {
+pub fn hydroflow_graph_to_program(flat_graph: DfirGraph, root: TokenStream) -> TokenStream {
     let partitioned_graph =
         partition_graph(flat_graph).expect("Failed to partition (cycle detected).");
 
@@ -744,8 +740,8 @@ fn apply_aggregations(
                     }
                     Aggregation::CountUnique(..) => {
                         parse_quote!({
-                            let prev: (hydroflow::rustc_hash::FxHashSet<_>, _) = prev;
-                            let mut set: hydroflow::rustc_hash::FxHashSet<_> = prev.0;
+                            let prev: (dfir_rs::rustc_hash::FxHashSet<_>, _) = prev;
+                            let mut set: dfir_rs::rustc_hash::FxHashSet<_> = prev.0;
                             if set.insert(#val_at_index) {
                                 (set, prev.1 + 1)
                             } else {
@@ -755,7 +751,7 @@ fn apply_aggregations(
                     }
                     Aggregation::CollectVec(..) => {
                         parse_quote!({
-                            let mut set: hydroflow::rustc_hash::FxHashSet<_> = prev;
+                            let mut set: dfir_rs::rustc_hash::FxHashSet<_> = prev;
                             set.insert(#val_at_index);
                             set
                         })
@@ -777,14 +773,14 @@ fn apply_aggregations(
                     }
                     Aggregation::CountUnique(..) => {
                         parse_quote!({
-                            let mut set = hydroflow::rustc_hash::FxHashSet::<_>::default();
+                            let mut set = dfir_rs::rustc_hash::FxHashSet::<_>::default();
                             set.insert(#val_at_index);
                             (set, 1)
                         })
                     }
                     Aggregation::CollectVec(..) => {
                         parse_quote!({
-                            let mut set = hydroflow::rustc_hash::FxHashSet::<_>::default();
+                            let mut set = dfir_rs::rustc_hash::FxHashSet::<_>::default();
                             set.insert(#val_at_index);
                             set
                         })
