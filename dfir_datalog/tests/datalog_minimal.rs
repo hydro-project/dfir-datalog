@@ -1,11 +1,11 @@
-use hydroflow::datalog;
-use hydroflow::util::collect_ready;
+use dfir_rs::datalog;
+use dfir_rs::util::collect_ready;
 use multiplatform_test::multiplatform_test;
 
 #[multiplatform_test]
 pub fn test_minimal() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
 

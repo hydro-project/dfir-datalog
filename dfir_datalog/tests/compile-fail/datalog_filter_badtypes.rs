@@ -1,4 +1,4 @@
-use hydroflow::datalog;
+use dfir_rs::datalog;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 struct Uncomparable;

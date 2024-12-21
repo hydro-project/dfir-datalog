@@ -1,4 +1,4 @@
-use hydroflow::datalog;
+use dfir_rs::datalog;
 
 fn main() {
     let mut df = datalog!(r#"

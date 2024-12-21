@@ -1,12 +1,12 @@
-use hydroflow::datalog;
-use hydroflow::util::collect_ready;
-use hydroflow::util::multiset::HashMultiSet;
+use dfir_rs::datalog;
+use dfir_rs::util::collect_ready;
+use dfir_rs::util::multiset::HashMultiSet;
 use multiplatform_test::multiplatform_test;
 
 #[multiplatform_test]
 pub fn test_minimal() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
 
@@ -26,7 +26,7 @@ pub fn test_minimal() {
 
 #[multiplatform_test]
 pub fn test_minimal_static() {
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -51,8 +51,8 @@ pub fn test_minimal_static() {
 
 #[multiplatform_test]
 pub fn test_duplicated_facts() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
 
@@ -73,8 +73,8 @@ pub fn test_duplicated_facts() {
 
 #[multiplatform_test]
 pub fn test_join_with_self() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
     in_send.send((2, 1)).unwrap();
@@ -99,8 +99,8 @@ pub fn test_join_with_self() {
 
 #[multiplatform_test]
 pub fn test_wildcard_fields() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     let mut flow = datalog!(
         r#"
@@ -121,8 +121,8 @@ pub fn test_wildcard_fields() {
 
 #[multiplatform_test]
 pub fn test_multi_use_intermediate() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
     in_send.send((2, 1)).unwrap();
@@ -148,9 +148,9 @@ pub fn test_multi_use_intermediate() {
 
 #[multiplatform_test]
 pub fn test_join_with_other() {
-    let (in1_send, in1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in2_send, in2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -182,9 +182,9 @@ pub fn test_join_with_other() {
 
 #[multiplatform_test]
 pub fn test_multiple_contributors() {
-    let (in1_send, in1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in2_send, in2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in1_send.send((1, 2)).unwrap();
     in2_send.send((3, 1)).unwrap();
@@ -210,9 +210,9 @@ pub fn test_multiple_contributors() {
 
 #[multiplatform_test]
 pub fn test_transitive_closure() {
-    let (edges_send, edges) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (seed_reachable_send, seed_reachable) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (reachable, mut reachable_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (edges_send, edges) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (seed_reachable_send, seed_reachable) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (reachable, mut reachable_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     seed_reachable_send.send((1,)).unwrap();
     edges_send.send((3, 4)).unwrap();
@@ -240,10 +240,10 @@ pub fn test_transitive_closure() {
 
 #[multiplatform_test]
 pub fn test_triple_relation_join() {
-    let (in1_send, in1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in2_send, in2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in3_send, in3) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize, usize, usize)>();
+    let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in3_send, in3) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize, usize, usize)>();
 
     in1_send.send((1, 2)).unwrap();
     in2_send.send((2, 1)).unwrap();
@@ -273,8 +273,8 @@ pub fn test_triple_relation_join() {
 
 #[multiplatform_test]
 pub fn test_local_constraints() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 2)).unwrap();
     in_send.send((1, 1)).unwrap();
@@ -295,8 +295,8 @@ pub fn test_local_constraints() {
 
 #[multiplatform_test]
 pub fn test_boolean_relation_eq() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 1)).unwrap();
     in_send.send((1, 2)).unwrap();
@@ -318,8 +318,8 @@ pub fn test_boolean_relation_eq() {
 
 #[multiplatform_test]
 pub fn test_boolean_relation_lt() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 1)).unwrap();
     in_send.send((1, 2)).unwrap();
@@ -341,8 +341,8 @@ pub fn test_boolean_relation_lt() {
 
 #[multiplatform_test]
 pub fn test_boolean_relation_le() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 1)).unwrap();
     in_send.send((1, 2)).unwrap();
@@ -367,8 +367,8 @@ pub fn test_boolean_relation_le() {
 
 #[multiplatform_test]
 pub fn test_boolean_relation_gt() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 1)).unwrap();
     in_send.send((1, 2)).unwrap();
@@ -390,8 +390,8 @@ pub fn test_boolean_relation_gt() {
 
 #[multiplatform_test]
 pub fn test_boolean_relation_ge() {
-    let (in_send, input) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     in_send.send((1, 1)).unwrap();
     in_send.send((1, 2)).unwrap();
@@ -416,10 +416,10 @@ pub fn test_boolean_relation_ge() {
 
 #[multiplatform_test]
 pub fn test_join_multiple_and_relation() {
-    let (in1_send, in1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in2_send, in2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in3_send, in3) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize, usize, usize)>();
+    let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in3_send, in3) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize, usize, usize)>();
 
     in1_send.send((1, 2)).unwrap();
 
@@ -452,10 +452,10 @@ pub fn test_join_multiple_and_relation() {
 pub fn test_join_multiple_then_relation() {
     // Same test as test_join_multiple_and_relation, except with a filter on top instead of a
     // filter in the join.
-    let (in1_send, in1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in2_send, in2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (in3_send, in3) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (out, mut out_recv) = hydroflow::util::unbounded_channel::<(usize, usize, usize, usize)>();
+    let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (in3_send, in3) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize, usize, usize)>();
 
     in1_send.send((1, 2)).unwrap();
 
@@ -487,9 +487,9 @@ pub fn test_join_multiple_then_relation() {
 
 #[multiplatform_test]
 pub fn test_defer_tick() {
-    let (ints_1_send, ints_1) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (ints_2_send, ints_2) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     ints_1_send.send((1,)).unwrap();
     ints_1_send.send((2,)).unwrap();
@@ -524,10 +524,10 @@ pub fn test_defer_tick() {
 
 #[multiplatform_test]
 pub fn test_anti_join() {
-    let (ints_1_send, ints_1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_2_send, ints_2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_3_send, ints_3) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_3_send, ints_3) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -563,10 +563,10 @@ pub fn test_anti_join() {
 
 #[multiplatform_test]
 pub fn test_anti_join_defer_tick() {
-    let (ints_1_send, ints_1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_2_send, ints_2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_3_send, ints_3) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_3_send, ints_3) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -606,10 +606,10 @@ pub fn test_anti_join_defer_tick() {
 
 #[multiplatform_test]
 pub fn test_anti_join_defer_cycle() {
-    let (ints_1_send, ints_1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_2_send, ints_2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (ints_3_send, ints_3) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (ints_3_send, ints_3) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -648,8 +648,8 @@ pub fn test_anti_join_defer_cycle() {
 
 #[multiplatform_test]
 fn test_max() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -677,8 +677,8 @@ fn test_max() {
 
 #[multiplatform_test]
 fn test_max_all() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -700,8 +700,8 @@ fn test_max_all() {
 
 #[multiplatform_test]
 fn test_max_defer_tick() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -727,16 +727,16 @@ fn test_max_defer_tick() {
 
 #[multiplatform_test]
 fn test_send_to_node() {
-    let (ints_send_1, ints_1) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (_ints_send_2, ints_2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send_1, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (_ints_send_2, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
-    let (result_1, mut result_recv_1) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result_2, mut result_recv_2) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (result_1, mut result_recv_1) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result_2, mut result_recv_2) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     let (_async_send_result_1, async_receive_result_1) =
-        hydroflow::util::unbounded_channel::<(usize,)>();
+        dfir_rs::util::unbounded_channel::<(usize,)>();
     let (async_send_result_2, async_receive_result_2) =
-        hydroflow::util::unbounded_channel::<(usize,)>();
+        dfir_rs::util::unbounded_channel::<(usize,)>();
 
     let mut flow_1 = {
         let ints = ints_1;
@@ -790,9 +790,9 @@ fn test_send_to_node() {
 
 #[multiplatform_test]
 fn test_aggregations_and_comments() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result2, mut result_recv2) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result2, mut result_recv2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -832,8 +832,8 @@ fn test_aggregations_and_comments() {
 
 #[multiplatform_test]
 fn test_aggregations_fold_keyed_expr() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(usize, usize)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize, usize)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
     let mut flow = datalog!(
         r#"
@@ -857,8 +857,8 @@ fn test_aggregations_fold_keyed_expr() {
 
 #[multiplatform_test]
 fn test_choose_strings() {
-    let (strings_send, strings) = hydroflow::util::unbounded_channel::<(String,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(String,)>();
+    let (strings_send, strings) = dfir_rs::util::unbounded_channel::<(String,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(String,)>();
 
     let mut flow = datalog!(
         r#"
@@ -881,8 +881,8 @@ fn test_choose_strings() {
 
 #[multiplatform_test]
 fn test_non_copy_but_clone() {
-    let (strings_send, strings) = hydroflow::util::unbounded_channel::<(String, String)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(String, String)>();
+    let (strings_send, strings) = dfir_rs::util::unbounded_channel::<(String, String)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(String, String)>();
 
     let mut flow = datalog!(
         r#"
@@ -907,8 +907,8 @@ fn test_non_copy_but_clone() {
 
 #[multiplatform_test]
 fn test_expr_lhs() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
 
     let mut flow = datalog!(
         r#"
@@ -936,8 +936,8 @@ fn test_expr_lhs() {
 
 #[multiplatform_test]
 fn test_less_than_relation() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
 
     let mut flow = datalog!(
         r#"
@@ -960,8 +960,8 @@ fn test_less_than_relation() {
 
 #[multiplatform_test]
 fn test_expr_predicate() {
-    let (ints_send, ints) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
+    let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
 
     let mut flow = datalog!(
         r#"
@@ -987,13 +987,13 @@ fn test_expr_predicate() {
 
 #[multiplatform_test]
 fn test_persist() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (ints2_send, ints2) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (ints3_send, ints3) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64, i64)>();
-    let (result2, mut result2_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result3, mut result3_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result4, mut result4_recv) = hydroflow::util::unbounded_channel::<(i64,)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (ints3_send, ints3) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, i64)>();
+    let (result2, mut result2_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result3, mut result3_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result4, mut result4_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
 
     let mut flow = datalog!(
         r#"
@@ -1059,8 +1059,8 @@ fn test_persist() {
 
 #[multiplatform_test]
 fn test_persist_uniqueness() {
-    let (ints2_send, ints2) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     let mut flow = datalog!(
         r#"
@@ -1097,10 +1097,10 @@ fn test_persist_uniqueness() {
 
 #[multiplatform_test]
 fn test_wildcard_join_count() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<(i64, i64)>();
-    let (ints2_send, ints2) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
-    let (result2, mut result2_recv) = hydroflow::util::unbounded_channel::<(usize,)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
+    let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
+    let (result2, mut result2_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
 
     let mut flow = datalog!(
         r#"
@@ -1127,9 +1127,9 @@ fn test_wildcard_join_count() {
 
 #[multiplatform_test]
 fn test_collect_vec() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (ints2_send, ints2) = hydroflow::util::unbounded_channel::<(i64,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(Vec<(i64, i64)>,)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(Vec<(i64, i64)>,)>();
 
     let mut flow = datalog!(
         r#"
@@ -1163,8 +1163,8 @@ fn test_collect_vec() {
 
 #[multiplatform_test]
 fn test_flatten() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<(i64, Vec<i64>)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64, Vec<i64>)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
 
     let mut flow = datalog!(
         r#"
@@ -1189,8 +1189,8 @@ fn test_flatten() {
 
 #[test]
 fn test_detuple() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<((i64, i64),)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<((i64, i64),)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
 
     let mut flow = datalog!(
         r#"
@@ -1215,8 +1215,8 @@ fn test_detuple() {
 
 #[test]
 fn test_multi_detuple() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<((i64, i64), (i64, i64))>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64, i64, i64)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<((i64, i64), (i64, i64))>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, i64, i64)>();
 
     let mut flow = datalog!(
         r#"
@@ -1241,8 +1241,8 @@ fn test_multi_detuple() {
 
 #[test]
 fn test_flat_then_detuple() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<(Vec<(i64, i64)>,)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(Vec<(i64, i64)>,)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
 
     let mut flow = datalog!(
         r#"
@@ -1267,8 +1267,8 @@ fn test_flat_then_detuple() {
 
 #[test]
 fn test_detuple_then_flat() {
-    let (ints1_send, ints1) = hydroflow::util::unbounded_channel::<((Vec<i64>, Vec<i64>),)>();
-    let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64)>();
+    let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<((Vec<i64>, Vec<i64>),)>();
+    let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
 
     let mut flow = datalog!(
         r#"
@@ -1294,13 +1294,13 @@ fn test_detuple_then_flat() {
 // #[ignore] // This test depends on the ordering of specific tuples which is undefined.
 // #[multiplatform_test]
 // fn test_index() {
-//     let (ints_send, ints) = hydroflow::util::unbounded_channel::<(i64, i64)>();
-//     let (result, mut result_recv) = hydroflow::util::unbounded_channel::<(i64, i64, i32)>();
-//     let (result2, mut result2_recv) = hydroflow::util::unbounded_channel::<(i64, usize, usize)>();
+//     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
+//     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, i32)>();
+//     let (result2, mut result2_recv) = dfir_rs::util::unbounded_channel::<(i64, usize, usize)>();
 
-//     let (result3, mut result3_recv) = hydroflow::util::unbounded_channel::<(i64, i64, usize)>();
-//     let (result4, mut result4_recv) = hydroflow::util::unbounded_channel::<(i64, usize, usize)>();
-//     let (result5, mut result5_recv) = hydroflow::util::unbounded_channel::<(i64, i64, usize)>();
+//     let (result3, mut result3_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, usize)>();
+//     let (result4, mut result4_recv) = dfir_rs::util::unbounded_channel::<(i64, usize, usize)>();
+//     let (result5, mut result5_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, usize)>();
 
 //     let mut flow = datalog!(
 //         r#"
