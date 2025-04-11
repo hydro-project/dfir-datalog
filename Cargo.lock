@@ -92,7 +92,7 @@ dependencies = [
 
 [[package]]
 name = "dfir_datalog"
-version = "0.12.1"
+version = "0.13.0"
 dependencies = [
  "dfir_datalog_core",
  "proc-macro-crate",
@@ -103,7 +103,7 @@ dependencies = [
 
 [[package]]
 name = "dfir_datalog_core"
-version = "0.12.1"
+version = "0.13.0"
 dependencies = [
  "dfir_lang",
  "insta",
@@ -119,9 +119,9 @@ dependencies = [
 
 [[package]]
 name = "dfir_lang"
-version = "0.12.1"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b4bd55454a88466e86da28963b1ae30f8f2b131c1cae4bd9b8d0e52d7f163343"
+checksum = "94e77f7d1dc8053ee0bbb907ed98ca1f56ebfba0b933b23debe8af16fdd0908f"
 dependencies = [
  "auto_impl",
  "documented",
