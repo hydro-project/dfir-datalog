@@ -1,0 +1,14 @@
+[workspace]
+
+# See "Adding new crates" and "Moving crates" addendum sections in `RELEASING.md`
+members = [
+    "dfir_datalog_core",
+    "dfir_datalog",
+]
+
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/hydro-project/dfir-datalog"
