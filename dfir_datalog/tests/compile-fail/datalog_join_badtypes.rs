@@ -1,4 +1,4 @@
-use dfir_rs::datalog;
+use dfir_datalog::datalog;
 
 fn main() {
     let mut df = datalog!(r#"

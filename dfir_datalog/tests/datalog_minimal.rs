@@ -1,8 +1,7 @@
-use dfir_rs::datalog;
+use dfir_datalog::datalog;
 use dfir_rs::util::collect_ready;
-use multiplatform_test::multiplatform_test;
 
-#[multiplatform_test]
+#[test]
 pub fn test_minimal() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();

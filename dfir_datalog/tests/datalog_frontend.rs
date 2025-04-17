@@ -1,9 +1,8 @@
-use dfir_rs::datalog;
+use dfir_datalog::datalog;
 use dfir_rs::util::collect_ready;
 use dfir_rs::util::multiset::HashMultiSet;
-use multiplatform_test::multiplatform_test;
 
-#[multiplatform_test]
+#[test]
 pub fn test_minimal() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -24,7 +23,7 @@ pub fn test_minimal() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(2, 1)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_minimal_static() {
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
 
@@ -49,7 +48,7 @@ pub fn test_minimal_static() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_duplicated_facts() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -71,7 +70,7 @@ pub fn test_duplicated_facts() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(2, 1)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_join_with_self() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -97,7 +96,7 @@ pub fn test_join_with_self() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_wildcard_fields() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
@@ -119,7 +118,7 @@ pub fn test_wildcard_fields() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(1,)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_multi_use_intermediate() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -146,7 +145,7 @@ pub fn test_multi_use_intermediate() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_join_with_other() {
     let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -180,7 +179,7 @@ pub fn test_join_with_other() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(1, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_multiple_contributors() {
     let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -208,7 +207,7 @@ pub fn test_multiple_contributors() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_transitive_closure() {
     let (edges_send, edges) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (seed_reachable_send, seed_reachable) = dfir_rs::util::unbounded_channel::<(usize,)>();
@@ -238,7 +237,7 @@ pub fn test_transitive_closure() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_triple_relation_join() {
     let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -271,7 +270,7 @@ pub fn test_triple_relation_join() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_local_constraints() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -293,7 +292,7 @@ pub fn test_local_constraints() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(1, 1)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_boolean_relation_eq() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -316,7 +315,7 @@ pub fn test_boolean_relation_eq() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(1, 1)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_boolean_relation_lt() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -339,7 +338,7 @@ pub fn test_boolean_relation_lt() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(1, 2)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_boolean_relation_le() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -365,7 +364,7 @@ pub fn test_boolean_relation_le() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_boolean_relation_gt() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -388,7 +387,7 @@ pub fn test_boolean_relation_gt() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut out_recv), &[(2, 1)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_boolean_relation_ge() {
     let (in_send, input) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (out, mut out_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -414,7 +413,7 @@ pub fn test_boolean_relation_ge() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_join_multiple_and_relation() {
     let (in1_send, in1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (in2_send, in2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -448,7 +447,7 @@ pub fn test_join_multiple_and_relation() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_join_multiple_then_relation() {
     // Same test as test_join_multiple_and_relation, except with a filter on top instead of a
     // filter in the join.
@@ -485,7 +484,7 @@ pub fn test_join_multiple_then_relation() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_defer_tick() {
     let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize,)>();
     let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize,)>();
@@ -522,7 +521,7 @@ pub fn test_defer_tick() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_anti_join() {
     let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -561,7 +560,7 @@ pub fn test_anti_join() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(1, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_anti_join_defer_tick() {
     let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -604,7 +603,7 @@ pub fn test_anti_join_defer_tick() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(1, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 pub fn test_anti_join_defer_cycle() {
     let (ints_1_send, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (ints_2_send, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -646,7 +645,7 @@ pub fn test_anti_join_defer_cycle() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(1, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_max() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -675,7 +674,7 @@ fn test_max() {
     assert_eq!(&res, &[(3, 2), (5, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_max_all() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -698,7 +697,7 @@ fn test_max_all() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(3, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_max_defer_tick() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -725,7 +724,7 @@ fn test_max_defer_tick() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(3, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_send_to_node() {
     let (ints_send_1, ints_1) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (_ints_send_2, ints_2) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -788,7 +787,7 @@ fn test_send_to_node() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv_2), &[(5,)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_aggregations_and_comments() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -830,7 +829,7 @@ fn test_aggregations_and_comments() {
     assert_eq!(&res, &[(3, 1), (10, 3)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_aggregations_fold_keyed_expr() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize, usize)>();
@@ -855,7 +854,7 @@ fn test_aggregations_fold_keyed_expr() {
     assert_eq!(&res, &[(0, 1), (1, 2)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_choose_strings() {
     let (strings_send, strings) = dfir_rs::util::unbounded_channel::<(String,)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(String,)>();
@@ -879,7 +878,7 @@ fn test_choose_strings() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_non_copy_but_clone() {
     let (strings_send, strings) = dfir_rs::util::unbounded_channel::<(String, String)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(String, String)>();
@@ -905,7 +904,7 @@ fn test_non_copy_but_clone() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_expr_lhs() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -934,7 +933,7 @@ fn test_expr_lhs() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_less_than_relation() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -958,7 +957,7 @@ fn test_less_than_relation() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_expr_predicate() {
     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -985,7 +984,7 @@ fn test_expr_predicate() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_persist() {
     let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -1057,7 +1056,7 @@ fn test_persist() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_persist_uniqueness() {
     let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(usize,)>();
@@ -1095,7 +1094,7 @@ fn test_persist_uniqueness() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result_recv), &[(2,)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_wildcard_join_count() {
     let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
     let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -1125,7 +1124,7 @@ fn test_wildcard_join_count() {
     assert_eq!(&*collect_ready::<Vec<_>, _>(&mut result2_recv), &[(1,)]);
 }
 
-#[multiplatform_test]
+#[test]
 fn test_collect_vec() {
     let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64,)>();
     let (ints2_send, ints2) = dfir_rs::util::unbounded_channel::<(i64,)>();
@@ -1161,7 +1160,7 @@ fn test_collect_vec() {
     );
 }
 
-#[multiplatform_test]
+#[test]
 fn test_flatten() {
     let (ints1_send, ints1) = dfir_rs::util::unbounded_channel::<(i64, Vec<i64>)>();
     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
@@ -1290,9 +1289,9 @@ fn test_detuple_then_flat() {
     );
 }
 
-// #[ignore] doesn't seem to work for #[multiplatform_test]
+// #[ignore] doesn't seem to work for #[test]
 // #[ignore] // This test depends on the ordering of specific tuples which is undefined.
-// #[multiplatform_test]
+// #[test]
 // fn test_index() {
 //     let (ints_send, ints) = dfir_rs::util::unbounded_channel::<(i64, i64)>();
 //     let (result, mut result_recv) = dfir_rs::util::unbounded_channel::<(i64, i64, i32)>();

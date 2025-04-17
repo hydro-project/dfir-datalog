@@ -1,4 +1,4 @@
-use dfir_rs::datalog;
+use dfir_datalog::datalog;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 struct Uncomparable;
