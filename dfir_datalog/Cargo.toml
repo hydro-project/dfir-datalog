@@ -23,3 +23,7 @@ proc-macro-crate = "1.0.0"
 # building on a WASM host), we may need to turn diagnostics off for WASM if
 # proc_macro2 does not support WASM at that time.
 dfir_datalog_core = { path = "../dfir_datalog_core", version = "^0.13.0" }
+
+[dev-dependencies]
+dfir_rs = "0.13.0"
+trybuild = "1.0.0"
