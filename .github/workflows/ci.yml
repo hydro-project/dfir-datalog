@@ -33,17 +33,10 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          components: rustfmt, clippy
+        uses: actions/checkout@v4
 
       - name: Run sccache-cache
-        uses: mozilla-actions/sccache-action@v0.0.4
+        uses: mozilla-actions/sccache-action@v0.0.8
 
       - name: Set Rust caching env vars
         uses: actions/github-script@v6
@@ -78,16 +71,10 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
+        uses: actions/checkout@v4
 
       - name: Run sccache-cache
-        uses: mozilla-actions/sccache-action@v0.0.4
+        uses: mozilla-actions/sccache-action@v0.0.8
 
       - name: Set Rust caching env vars
         uses: actions/github-script@v6
